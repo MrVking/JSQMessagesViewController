@@ -34,9 +34,13 @@
         self.avatars = [NSMutableDictionary new];
         
         JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-        
         self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor colorWithRed:0.000 green:0.596 blue:0.071 alpha:1]];
         self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
+        
+        JSQMessagesBubbleImageFactory *taillesBubbleFactory = [[JSQMessagesBubbleImageFactory alloc] initWithBubbleImage:[UIImage jsq_bubbleCompactTaillessImage] capInsets:UIEdgeInsetsZero];
+        
+        self.outgoingTaillessBubbleImageData = [taillesBubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor colorWithRed:0.000 green:0.596 blue:0.071 alpha:1]];
+        self.incomingTaillessBubbleImageData = [taillesBubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
     }
     
     return self;

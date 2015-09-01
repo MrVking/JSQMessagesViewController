@@ -30,7 +30,9 @@
 @property (strong, nonatomic) NSMutableDictionary *avatars;
 
 @property (strong, nonatomic) JSQMessagesBubbleImage *outgoingBubbleImageData;
+@property (strong, nonatomic) JSQMessagesBubbleImage *outgoingTaillessBubbleImageData;
 
 @property (strong, nonatomic) JSQMessagesBubbleImage *incomingBubbleImageData;
+@property (strong, nonatomic) JSQMessagesBubbleImage *incomingTaillessBubbleImageData;
 
 @end
