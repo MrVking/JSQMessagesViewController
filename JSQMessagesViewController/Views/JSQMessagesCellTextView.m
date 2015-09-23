@@ -45,7 +45,7 @@
 
 - (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect
 {
-    return 4; // For really wide spacing; pick your own value
+    return self.font.pointSize * 0.2;
 }
 
 - (void)setSelectedRange:(NSRange)selectedRange
