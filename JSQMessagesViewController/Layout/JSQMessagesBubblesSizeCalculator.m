@@ -101,9 +101,13 @@
         CGFloat horizontalInsetsTotal = horizontalContainerInsets + horizontalFrameInsets + spacingBetweenAvatarAndBubble;
         CGFloat maximumTextWidth = layout.itemWidth - avatarSize.width - layout.messageBubbleLeftRightMargin - horizontalInsetsTotal;
 
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineSpacing = 6;
+        
         CGRect stringRect = [[messageData text] boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX)
                                                              options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                                          attributes:@{ NSFontAttributeName : layout.messageBubbleFont }
+                                                          attributes:@{ NSFontAttributeName : layout.messageBubbleFont,
+                                                                        NSParagraphStyleAttributeName:paragraphStyle }
                                                              context:nil];
 
         CGSize stringSize = CGRectIntegral(stringRect).size;
