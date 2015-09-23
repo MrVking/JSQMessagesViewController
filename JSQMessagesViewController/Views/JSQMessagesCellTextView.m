@@ -41,12 +41,25 @@
     self.linkTextAttributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor],
                                  NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     self.layoutManager.delegate = self;
+    
+    self.textContainer.lineFragmentPadding = 0;
 }
 
-- (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect
-{
-    return self.font.pointSize * 0.2;
+- (void)setText:(NSString *)text {
+    [super setText:text];
+    if (text) {
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineSpacing = self.font.pointSize * self.lineHeightFactor;
+        NSDictionary *attrsDictionary = @{ NSFontAttributeName: self.font, NSParagraphStyleAttributeName: paragraphStyle};
+        self.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attrsDictionary];
+    }
 }
+//
+//- (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect
+//{
+//    NSLog(@"%f", self.lineHeightFactor);
+//    return self.font.pointSize * self.lineHeightFactor;
+//}
 
 - (void)setSelectedRange:(NSRange)selectedRange
 {

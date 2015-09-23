@@ -24,4 +24,6 @@
  */
 @interface JSQMessagesCellTextView : UITextView<NSLayoutManagerDelegate>
 
+@property (nonatomic, assign) CGFloat lineHeightFactor;
+
 @end

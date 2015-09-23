@@ -98,6 +98,8 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     _springinessEnabled = NO;
     _springResistanceFactor = 1000;
     
+    _lineHeightFactor = 0.2;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(jsq_didReceiveApplicationMemoryWarningNotification:)
                                                  name:UIApplicationDidReceiveMemoryWarningNotification
@@ -217,6 +219,10 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     
     _outgoingAvatarViewSize = outgoingAvatarViewSize;
     [self invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
+}
+
+- (void)setLineHeightFactor:(CGFloat)lineHeightFactor {
+    _lineHeightFactor = lineHeightFactor;
 }
 
 #pragma mark - Getters
@@ -462,6 +468,8 @@ const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault = 30.0f;
     layoutAttributes.textViewTextContainerInsets = self.messageBubbleTextViewTextContainerInsets;
     
     layoutAttributes.messageBubbleFont = self.messageBubbleFont;
+    
+    layoutAttributes.textViewLineHeightFactor = self.lineHeightFactor;
     
     layoutAttributes.incomingAvatarViewSize = self.incomingAvatarViewSize;
     

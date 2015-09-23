@@ -44,6 +44,8 @@
  */
 @property (assign, nonatomic) UIEdgeInsets textViewTextContainerInsets;
 
+@property (assign, nonatomic) CGFloat textViewLineHeightFactor;
+
 /**
  *  The inset of the frame of the text view within a `JSQMessagesCollectionViewCell`. 
  *  

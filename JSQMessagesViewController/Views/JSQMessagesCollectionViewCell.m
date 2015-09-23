@@ -182,6 +182,9 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     if (self.textView.font != customAttributes.messageBubbleFont) {
         self.textView.font = customAttributes.messageBubbleFont;
     }
+    if (self.textView.lineHeightFactor != customAttributes.textViewLineHeightFactor) {
+        self.textView.lineHeightFactor = customAttributes.textViewLineHeightFactor;
+    }
 
     if (!UIEdgeInsetsEqualToEdgeInsets(self.textView.textContainerInset, customAttributes.textViewTextContainerInsets)) {
         self.textView.textContainerInset = customAttributes.textViewTextContainerInsets;

@@ -148,6 +148,7 @@
     copy.cellTopLabelHeight = self.cellTopLabelHeight;
     copy.messageBubbleTopLabelHeight = self.messageBubbleTopLabelHeight;
     copy.cellBottomLabelHeight = self.cellBottomLabelHeight;
+    copy.textViewLineHeightFactor = self.textViewLineHeightFactor;
     
     return copy;
 }

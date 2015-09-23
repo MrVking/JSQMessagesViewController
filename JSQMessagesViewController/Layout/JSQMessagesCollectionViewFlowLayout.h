@@ -104,6 +104,8 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesCollectionViewAvatarSizeDefault;
  */
 @property (strong, nonatomic) UIFont *messageBubbleFont;
 
+@property (nonatomic, assign) CGFloat lineHeightFactor;
+
 /**
  *  The horizontal spacing used to lay out the `messageBubbleContainerView` frame within each `JSQMessagesCollectionViewCell`.
  *  This container view holds the message bubble image and message contents of a cell.
