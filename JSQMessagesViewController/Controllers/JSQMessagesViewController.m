@@ -239,7 +239,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
             [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
         });
     }
-    [self.keyboardController beginListeningForKeyboard];
+
     [self jsq_updateKeyboardTriggerPoint];
 }
 
@@ -248,6 +248,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [super viewDidAppear:animated];
     [self jsq_addObservers];
     [self jsq_addActionToInteractivePopGestureRecognizer:YES];
+    [self.keyboardController beginListeningForKeyboard];
 
     if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
         [self.snapshotView removeFromSuperview];
@@ -281,7 +282,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         return UIInterfaceOrientationMaskAllButUpsideDown;
@@ -363,8 +364,17 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
-    CGFloat collectionViewContentHeight = [self.collectionView.collectionViewLayout collectionViewContentSize].height + self.collectionView.collectionViewLayout.headerReferenceSize.height;
-    CGFloat collectionViewHeaderHeight = self.collectionView.collectionViewLayout.headerReferenceSize.height;
+    if ([self.collectionView numberOfSections] == 0) {
+        return;
+    }
+
+    NSInteger items = [self.collectionView numberOfItemsInSection:0];
+
+    if (items == 0) {
+        return;
+    }
+
+    CGFloat collectionViewContentHeight = [self.collectionView.collectionViewLayout collectionViewContentSize].height;
     BOOL isContentTooSmall = (collectionViewContentHeight < CGRectGetHeight(self.collectionView.bounds));
 
     if (isContentTooSmall) {
@@ -372,14 +382,6 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
         //  when the collection view content size is too small, `scrollToItemAtIndexPath:` doesn't work properly
         //  this seems to be a UIKit bug, see #256 on GitHub
         [self.collectionView scrollRectToVisible:CGRectMake(0.0, collectionViewContentHeight - 1.0f, 1.0f, 1.0f)
-                                        animated:animated];
-        return;
-    }
-    
-    NSInteger items = [self.collectionView numberOfItemsInSection:0];
-    
-    if (items == 0) {
-        [self.collectionView scrollRectToVisible:CGRectMake(0.0, collectionViewContentHeight - 1.0f + collectionViewHeaderHeight, 1.0f, 1.0f)
                                         animated:animated];
         return;
     }
@@ -391,7 +393,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
     CGSize finalCellSize = [self.collectionView.collectionViewLayout sizeForItemAtIndexPath:finalIndexPath];
 
-    CGFloat maxHeightForVisibleMessage = CGRectGetHeight(self.collectionView.bounds) - self.collectionView.contentInset.top - CGRectGetHeight(self.inputToolbar.bounds) + collectionViewHeaderHeight;
+    CGFloat maxHeightForVisibleMessage = CGRectGetHeight(self.collectionView.bounds) - self.collectionView.contentInset.top - CGRectGetHeight(self.inputToolbar.bounds);
 
     UICollectionViewScrollPosition scrollPosition = (finalCellSize.height > maxHeightForVisibleMessage) ? UICollectionViewScrollPositionBottom : UICollectionViewScrollPositionTop;
 
@@ -476,7 +478,7 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
     if (!isMediaMessage) {
         cell.textView.text = [messageItem text];
-        
+
         if ([UIDevice jsq_isCurrentDeviceBeforeiOS8]) {
             //  workaround for iOS 7 textView data detectors bug
             cell.textView.text = nil;
@@ -769,6 +771,8 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     if (!self.selectedIndexPathForMenu) {
         return;
     }
+
+    NSLog(@"PATH = %@", self.selectedIndexPathForMenu);
 
     //  per comment above in 'shouldShowMenuForItemAtIndexPath:'
     //  re-enable 'selectable', thus re-enabling data detectors if present
