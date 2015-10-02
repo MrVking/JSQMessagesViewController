@@ -384,9 +384,6 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     CGPoint touchPt = [touch locationInView:self];
 
     if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
-        if (CGRectContainsPoint(self.messageBubbleContainerView.frame, touchPt)) {
-            [self setHighlighted:YES];
-        }
         return CGRectContainsPoint(self.messageBubbleContainerView.frame, touchPt);
     }
     
