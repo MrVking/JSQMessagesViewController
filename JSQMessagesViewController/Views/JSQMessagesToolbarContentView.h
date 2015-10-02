@@ -87,8 +87,6 @@ FOUNDATION_EXPORT const CGFloat kJSQMessagesToolbarContentViewHorizontalSpacingD
  */
 @property (assign, nonatomic) CGFloat rightBarButtonItemWidth;
 
-@property (weak, nonatomic) IBOutlet UILabel *userLocationLabel;
-
 /**
  *  The container view for the rightBarButtonItem.
  *
