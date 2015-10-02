@@ -40,13 +40,6 @@ FOUNDATION_EXPORT NSString * const JSQMessagesKeyboardControllerNotificationKeyb
 FOUNDATION_EXPORT NSString * const JSQMessagesKeyboardControllerUserInfoKeyKeyboardDidChangeFrame;
 
 
-typedef NS_ENUM(NSUInteger, JSQMessagesKeyboardState) {
-    JSQMessagesKeyboardStateUnknown,
-    JSQMessagesKeyboardStateHidden,
-    JSQMessagesKeyboardStateDocked,
-    JSQMessagesKeyboardStateUndocked,
-};
-
 /**
  *  The `JSQMessagesKeyboardControllerDelegate` protocol defines methods that 
  *  allow you to respond to the frame change events of the system keyboard.
@@ -98,13 +91,6 @@ typedef NS_ENUM(NSUInteger, JSQMessagesKeyboardState) {
  *  The pan gesture recognizer responsible for handling user interaction with the system keyboard.
  */
 @property (weak, nonatomic, readonly) UIPanGestureRecognizer *panGestureRecognizer;
-
-/**
- *  Returns current state of the keyboard.
- *
- *  @see JSQMessagesKeyboardState
- */
-@property (assign, nonatomic, readonly) JSQMessagesKeyboardState keyboardState;
 
 /**
  *  Specifies the distance from the keyboard at which the `panGestureRecognizer`
