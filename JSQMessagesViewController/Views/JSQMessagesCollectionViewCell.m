@@ -192,7 +192,6 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 
     self.textViewFrameInsets = customAttributes.textViewFrameInsets;
 
-    [self.contentView setBounds:CGRectMake(0, 0, CGRectGetWidth(self.contentView.frame), 15000)];
     [self jsq_updateConstraint:self.messageBubbleContainerWidthConstraint
                   withConstant:customAttributes.messageBubbleContainerViewWidth];
 

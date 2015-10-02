@@ -29,7 +29,7 @@
  *
  *  @warning This class is intended to be subclassed. You should not use it directly.
  */
-@interface JSQMessagesViewController : SPViewController <JSQMessagesCollectionViewDataSource,
+@interface JSQMessagesViewController : UIViewController <JSQMessagesCollectionViewDataSource,
                                                          JSQMessagesCollectionViewDelegateFlowLayout,
                                                          UITextViewDelegate>
 
