@@ -54,12 +54,6 @@
         self.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attrsDictionary];
     }
 }
-//
-//- (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect
-//{
-//    NSLog(@"%f", self.lineHeightFactor);
-//    return self.font.pointSize * self.lineHeightFactor;
-//}
 
 - (void)setSelectedRange:(NSRange)selectedRange
 {
