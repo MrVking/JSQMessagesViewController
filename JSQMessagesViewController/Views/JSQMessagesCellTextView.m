@@ -70,9 +70,9 @@
     if (attributedText) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineSpacing = self.font.pointSize * self.lineHeightFactor;
-        NSMutableAttributedString *attrString = [attributedText mutableCopy];
-        [attrString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, attributedText.string.length)];
-        [super setAttributedText:attrString];
+        NSDictionary *attrsDictionary = @{ NSFontAttributeName: self.font, NSParagraphStyleAttributeName: paragraphStyle};
+        attributedText = [[NSAttributedString alloc] initWithString:attributedText.string attributes:attrsDictionary];
+        [super setAttributedText:attributedText];
     }
     _hasText = !!attributedText.length;
     [self setNeedsLayout];
