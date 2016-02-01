@@ -18,9 +18,7 @@
 
 #import "JSQMessagesCellTextView.h"
 
-@implementation JSQMessagesCellTextView {
-    BOOL _hasText;
-}
+@implementation JSQMessagesCellTextView
 
 - (void)awakeFromNib
 {
@@ -33,7 +31,7 @@
     self.dataDetectorTypes = UIDataDetectorTypeNone;
     self.showsHorizontalScrollIndicator = NO;
     self.showsVerticalScrollIndicator = NO;
-    //self.scrollEnabled = NO;
+    self.scrollEnabled = NO;
     self.backgroundColor = [UIColor clearColor];
     self.contentInset = UIEdgeInsetsZero;
     self.scrollIndicatorInsets = UIEdgeInsetsZero;
@@ -47,40 +45,14 @@
     self.textContainer.lineFragmentPadding = 0;
 }
 
-// In prepareForReuse we would set the text to nil,
-// and then we would set the text to the correct value.
-// This dance takes time, especially with data detectors in place.
-// We make sure that the outside can see the correct values and we do layout.
-- (void)setText:(NSString *)text
-{
+- (void)setText:(NSString *)text {
+    [super setText:text];
     if (text) {
-        [super setText:text];
-    }
-    _hasText = !!text.length;
-    [self setNeedsLayout];
-}
-
-- (NSString *)text
-{
-    return (_hasText) ?  [super text] :  nil;
-}
-
-- (void)setAttributedText:(NSAttributedString *)attributedText
-{
-    if (attributedText) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineSpacing = self.font.pointSize * self.lineHeightFactor;
         NSDictionary *attrsDictionary = @{ NSFontAttributeName: self.font, NSParagraphStyleAttributeName: paragraphStyle};
-        attributedText = [[NSAttributedString alloc] initWithString:attributedText.string attributes:attrsDictionary];
-        [super setAttributedText:attributedText];
+        self.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attrsDictionary];
     }
-    _hasText = !!attributedText.length;
-    [self setNeedsLayout];
-}
-
-- (NSAttributedString *)attributedText
-{
-    return (_hasText) ? [super attributedText] : nil;
 }
 
 - (void)setSelectedRange:(NSRange)selectedRange
