@@ -45,13 +45,41 @@
     self.textContainer.lineFragmentPadding = 0;
 }
 
+// TODO: Refactor custom code here to an SPMessagesCellTextView
+
+- (void)setTextColor:(UIColor *)textColor {
+    [super setTextColor:textColor];
+    
+    // force color of Marked as abusive to be set back to orange
+    if ([self.text hasPrefix:NSLocalizedString(@"marked_as_abusive",)]) {
+        [self setText:self.text];
+    }
+}
+
 - (void)setText:(NSString *)text {
     [super setText:text];
     if (text) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineSpacing = self.font.pointSize * self.lineHeightFactor;
         NSDictionary *attrsDictionary = @{ NSFontAttributeName: self.font, NSParagraphStyleAttributeName: paragraphStyle};
-        self.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attrsDictionary];
+        
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+        
+        
+        if ([text hasPrefix:NSLocalizedString(@"marked_as_abusive",)]) {
+            NSRange markAsAbusiveRange = NSMakeRange(0, NSLocalizedString(@"marked_as_abusive",).length);
+            NSRange outsideRange = NSMakeRange(markAsAbusiveRange.length + 1, text.length - markAsAbusiveRange.length - 1);
+
+            [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:self.font.fontName size:10.0] range:markAsAbusiveRange];
+            [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:markAsAbusiveRange];
+            [attributedString addAttribute:NSForegroundColorAttributeName value:[self.textColor colorWithAlphaComponent:0.3] range:outsideRange];
+            [attributedString addAttribute:NSFontAttributeName value:self.font range:outsideRange];
+        }
+        else {
+            [attributedString addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, text.length)];
+        }
+        
+        self.attributedText = attributedString;
     }
 }
 

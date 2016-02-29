@@ -119,11 +119,30 @@
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineSpacing = layout.messageBubbleFont.pointSize * layout.lineHeightFactor;
         
-        CGRect stringRect = [[messageData text] boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX)
+        
+        CGRect markAsAbusiveRect = CGRectZero;
+        NSString *messageDataString = [messageData text];
+        NSString *flagString = NSLocalizedString(@"marked_as_abusive",);
+        if ([messageDataString containsString:flagString]) {
+            NSRange markAsAbusiveRange = NSMakeRange(0, flagString.length);
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[messageData text]];
+            markAsAbusiveRect = [flagString boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX)
+                                                                   options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                                attributes:@{ NSFontAttributeName : [UIFont fontWithName:layout.messageBubbleFont.fontName size:10.0],
+                                                                              NSParagraphStyleAttributeName:paragraphStyle }
+                                                                   context:nil];
+            messageDataString = [messageDataString stringByReplacingOccurrencesOfString:[flagString stringByAppendingString:@"\n"] withString:@""];
+        }
+    
+        
+        CGRect stringRect = [messageDataString boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX)
                                                              options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                           attributes:@{ NSFontAttributeName : layout.messageBubbleFont,
                                                                         NSParagraphStyleAttributeName:paragraphStyle }
                                                              context:nil];
+        
+        stringRect.size.width = MAX(markAsAbusiveRect.size.width, stringRect.size.width);
+        stringRect.size.height += markAsAbusiveRect.size.height;
 
         CGSize stringSize = CGRectIntegral(stringRect).size;
 
